@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Kindle Notizen</title>
+<style>
+body {
+  font-family: sans-serif;
+  background-color: #fff;
+  color: #000;
+  font-size: 28px; 
+  margin: 1em;
+}
+pre {
+  white-space: pre-wrap; /* Zeilen umbrechen */
+}
+h1 {
+  font-size: 32px;
+  margin-bottom: 0.5em;
+}
+</style>
+</head>
+<body>
+<h1>Meine Notizen</h1>
+<pre id="notes">Lade...</pre>
+
+<script>
+async function loadNotes() {
+  try {
+    const response = await fetch('https://docs.google.com/document/d/1UDvoyOeSvBPYmuvYoTwiWPahgqAt5gqLfjkE_iUxo70/export?format=txt');
+    const text = await response.text();
+    document.getElementById('notes').textContent = text;
+  } catch(err) {
+    document.getElementById('notes').textContent = "Fehler beim Laden!";
+  }
+}
+
+// einmal laden und dann alle 5 Minuten aktualisieren
+loadNotes();
+setInterval(loadNotes, 300000);
+</script>
+</body>
+</html>
+
